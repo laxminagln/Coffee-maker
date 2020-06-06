@@ -100,20 +100,9 @@ spoon_servo.write(120);
 }
 
 void loop() {
-
-
-    /*lcd.clear();
-    lcd.print("push button for");
-    lcd.setCursor(0,1);
-    lcd.print("    Coffee    ");
-    delay(500);
-   */
-
-
    if (RTC.read(tm)) {
-    lcd.clear();
-    
-     lcd.print("Time  ");
+    lcd.clear();  
+    lcd.print("Time  ");
     ampm(tm.Hour);       
     lcd.print(':');
     lcd.print(tm.Minute);
@@ -123,40 +112,24 @@ void loop() {
     lcd.print(" am");
     if(a==false)
     lcd.print(" pm");
-
     lcd.setCursor(0,1);
     lcd.print("coffee ");
     lcd.print(alarm_hour);
     lcd.print(':');
     lcd.print(alarm_min);
-    //lcd.print(':');
     lcd.print(" pm");
-
     delay(250);
-    
     if(hour_check == alarm_hour && tm.Minute == alarm_min){
     lcd.home();  
-    
-   
     makeCoffee();
-    
-     
     }
-  
-    
-  }
-
+   }
    coffee_switch_state = digitalRead(coffee_switch);
    Serial.println(coffee_switch_state);
-    if(coffee_switch_state == HIGH){
+   if(coffee_switch_state == HIGH){
     makeCoffee();
    }
-
-
-
 }
-
-
 void ampm(int Hour){  
 if(Hour==0){          
   Hour=12;
@@ -178,31 +151,27 @@ else if(Hour>12){
 }
 hour_check = Hour;
 }
-
-
 void makeCoffee(){
  coil_ir_state =HIGH;
  dispenser1_ir_state =HIGH;
  dispenser2_ir_state =HIGH;
  dispenser3_ir_state =HIGH;
  spoon_ir_state =HIGH;
-
-  
   lcd.clear();
   lcd.print("Making coffee....");
   lcd.setCursor(0,1);
   lcd.print("Dispensing cup");
-for (pos = 120; pos >= 38; pos -= 1) { // goes from 180 degrees to 0 degrees
-    cup_servo.write(pos);              // tell servo to go to position in variable 'pos'
+for (pos = 120; pos >= 38; pos -= 1) { 
+    cup_servo.write(pos);             
     delay(15);
     }
-for (pos = 38; pos <= 120; pos += 1) { // goes from 0 degrees to 180 degrees
+for (pos = 38; pos <= 120; pos += 1) { 
     // in steps of 1 degree
-    cup_servo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
+    cup_servo.write(pos);             
+    delay(15);                      
   }
-for (pos = 120; pos >= 100; pos -= 1) { // goes from 180 degrees to 0 degrees
-    cup_servo.write(pos);              // tell servo to go to position in variable 'pos'
+for (pos = 120; pos >= 100; pos -= 1) { 
+    cup_servo.write(pos);              
     delay(15);
     }
 digitalWrite(relay_belt,LOW);
@@ -211,7 +180,6 @@ while (coil_ir_state == HIGH) {
  coil_ir_state = digitalRead(coil_ir_pin);
 }
 digitalWrite(relay_belt,HIGH);
-
 digitalWrite(relay_pump,LOW);
 lcd.setCursor(0,1);
 lcd.print("Filling watter  ");
@@ -224,83 +192,55 @@ digitalWrite(relay_pump,HIGH);
   lcd.setCursor(0,1);
   lcd.print("Coil ON       ");
   digitalWrite(relay_coil,HIGH);
-
  coffee_switch_state = digitalRead(coffee_switch);
- 
 while (coil_on_count <= coil_on_time) {
-  
    coffee_switch_state = digitalRead(coffee_switch);
-  
     if(coffee_switch_state == HIGH){
-
       coil_on_count = coil_on_time; 
     }
-
   delay(1000);
-
 coil_on_display_count = coil_on_time - coil_on_count;
   lcd.setCursor(11,1);
   lcd.print(coil_on_display_count);
-  
-
  coil_on_count++;
 }
-  
-  
   digitalWrite(relay_coil,LOW);
   lcd.setCursor(0,1);
   lcd.print("Coil up        ");
   stepper_coil.step(4250);
   delay(500);
-
 digitalWrite(relay_belt,LOW);
-
 while (dispenser1_ir_state == HIGH) {
  dispenser1_ir_state = digitalRead(dispenser1_ir_pin);
 }
-
 digitalWrite(relay_belt,HIGH);
 lcd.setCursor(0,1);
 lcd.print("Disp coffee      ");
 stepper_coffee.step(-steps_per_revolution*3);
-  //delay(1000);                                     //
-
 digitalWrite(relay_belt,LOW);
-
 while (dispenser2_ir_state == HIGH) {
  dispenser2_ir_state = digitalRead(dispenser2_ir_pin);
 }
-
 digitalWrite(relay_belt,HIGH);
 lcd.setCursor(0,1);
 lcd.print("Disp sugar       ");
 stepper_sugar.step(-steps_per_revolution*4);
-  //delay(2000);                                     //
-
 digitalWrite(relay_belt,LOW);
-
 while (dispenser3_ir_state == HIGH) {
  dispenser3_ir_state = digitalRead(dispenser3_ir_pin);
 }
-
 digitalWrite(relay_belt,HIGH);
 lcd.setCursor(0,1);
 lcd.print("Disp milk        ");
 stepper_milk.step(-steps_per_revolution*3.5);
-  //delay(2000);                                    //
-
   digitalWrite(relay_belt,LOW);
-
 while (spoon_ir_state == HIGH) {
  spoon_ir_state = digitalRead(spoon_ir_pin);
 }
-  
 digitalWrite(relay_belt,HIGH);
 delay(500);
 lcd.setCursor(0,1);
 lcd.print("Stiring         ");
-
-
 for (pos = 130; pos >= 48; pos -= 1) { 
     spoon_servo.write(pos);            
     delay(15);                       
@@ -308,7 +248,6 @@ for (pos = 130; pos >= 48; pos -= 1) {
 digitalWrite(relay_spoon,LOW);
 delay(1000);
   for (pos = 48; pos <= 63; pos += 1) { 
-    // in steps of 1 degree
     spoon_servo.write(pos);              
     delay(15);
   }
@@ -319,11 +258,9 @@ delay(1000);
   }
 delay(1000);
 for (pos = 48; pos <= 63; pos += 1) { 
-    // in steps of 1 degree
     spoon_servo.write(pos);             
     delay(15);
   }
- 
  delay(1000);
   for (pos = 63; pos >= 48; pos -= 1) { 
     spoon_servo.write(pos);              
@@ -342,11 +279,9 @@ delay(1000);
   }
 delay(1000);
 for (pos = 48; pos <= 63; pos += 1) { 
-    // in steps of 1 degree
     spoon_servo.write(pos);              
     delay(15);
   }
-
    delay(1000);
   for (pos = 63; pos >= 48; pos -= 1) {
     spoon_servo.write(pos);              
@@ -354,11 +289,9 @@ for (pos = 48; pos <= 63; pos += 1) {
   }
 delay(1000);
 for (pos = 48; pos <= 63; pos += 1) { 
-    // in steps of 1 degree
     spoon_servo.write(pos);              
     delay(15);
   }             
-
 delay(1000);
   for (pos = 63; pos >= 48; pos -= 1) { 
     spoon_servo.write(pos);              
@@ -366,7 +299,6 @@ delay(1000);
   }
 delay(1000);
 for (pos = 48; pos <= 63; pos += 1) {
-    // in steps of 1 degree
     spoon_servo.write(pos);             
     delay(15);
   }
@@ -377,30 +309,22 @@ for (pos = 48; pos <= 63; pos += 1) {
   }
 delay(1000);
 for (pos = 48; pos <= 63; pos += 1) { 
-    // in steps of 1 degree
     spoon_servo.write(pos);             
     delay(15);
   }
-
-
 digitalWrite(relay_spoon,HIGH);
 delay(1000);
 
 for (pos = 48; pos <= 130; pos += 1) { 
-    // in steps of 1 degree
     spoon_servo.write(pos);              
     delay(15);                       
   }
-
 digitalWrite(relay_belt,LOW);
-
 delay(4000);
 digitalWrite(relay_belt,HIGH);
 digitalWrite(relay_shock,LOW);
-
  lcd.setCursor(0,1);
  lcd.print("Coffee ready    ");
- 
  delay(4000);
  digitalWrite(relay_shock,HIGH);
 }
