@@ -12,91 +12,66 @@ Servo spoon_servo;
 
 const int alarm_hour = 6;
 const int alarm_min = 10;
-
 int pump_on_time = 13000;
 long coil_on_time =230; //210;
 int pos = 0;
-
 bool a;
 int hour_check = 0;
 tmElements_t tm;
-
 int coil_on_count;
 int coil_on_display_count;
-
 int coffee_switch = 50;
 int coffee_switch_state =0; 
-
 const int steps_per_revolution = 2048; 
 Stepper stepper_coffee (steps_per_revolution, 23, 27, 25, 29);
 Stepper stepper_coil (steps_per_revolution, 31, 35, 33, 37);
 Stepper stepper_milk (steps_per_revolution, 39, 43, 41, 45);
 Stepper stepper_sugar (steps_per_revolution, 47, 51, 49, 53);
-
 const int coil_ir_pin = 34;
 const int dispenser1_ir_pin =32;
 const int dispenser2_ir_pin =22;
 const int dispenser3_ir_pin =24;
 const int spoon_ir_pin =30;
-
 const int relay_shock = 36;
 const int relay_belt = 38;
 const int relay_pump = 40;
 const int relay_spoon = 42;
 const int relay_coil = 44;
-
 int coil_ir_state =HIGH;
 int dispenser1_ir_state =HIGH;
 int dispenser2_ir_state =HIGH;
 int dispenser3_ir_state =HIGH;
 int spoon_ir_state =HIGH;
 
-
-
-
-
 void setup() {
   cup_servo.attach(3);
   spoon_servo.attach(2);
-
 pinMode(coffee_switch,INPUT);
-  
   stepper_coil.setSpeed(13);
   stepper_coffee.setSpeed(13);
   stepper_sugar.setSpeed(13);
   stepper_milk.setSpeed(13);
-
 pinMode(coil_ir_pin,INPUT);
 pinMode(dispenser1_ir_pin,INPUT);
 pinMode(dispenser2_ir_pin,INPUT);
 pinMode(dispenser3_ir_pin,INPUT);
 pinMode(spoon_ir_pin,INPUT);
-
 pinMode(relay_shock,OUTPUT);
 pinMode(relay_belt,OUTPUT);
 pinMode(relay_pump,OUTPUT);
 pinMode(relay_spoon,OUTPUT);
 pinMode(relay_coil,OUTPUT);
-
 digitalWrite(relay_shock,HIGH);
 digitalWrite(relay_belt,HIGH);
 digitalWrite(relay_pump,HIGH);
 digitalWrite(relay_spoon,HIGH);
 digitalWrite(relay_coil,LOW);
 spoon_servo.write(120);
-
-  
   lcd.begin (16,2);
   lcd.setBacklight(HIGH); 
   lcd.home();
- // lcd.print("coffee robot");
   delay(1000);
- 
-
-  
   Serial.begin(9600);
-
-  
 }
 
 void loop() {
