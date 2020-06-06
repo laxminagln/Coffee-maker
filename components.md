@@ -1,31 +1,31 @@
 Component name      |     quantity
 -----------------------------------
-servo motor         |
+servo motor---------|
 
-motor 20 rpm        |
+motor 20 rpm--------|
 
-motor               |
+motor---------------|
 
-dispenser           |
+dispenser-----------|
 
-conveyor belt       |
+conveyor belt-------|
 
-gears               |
+gears---------------|
 
-arduino mega        |
+arduino mega--------|
 
-time module         |
+time module---------|
 
-spoon               |
+spoon---------------|
 
-electric rod        |
+electric rod--------|
 
-cups                |
+cups----------------|
 
-lcd display         |
+lcd display---------|
 
-wires               |
+wires---------------|
 
-motor drivers       |
+motor drivers-------|
 
-buzzer              |
+buzzer--------------|
