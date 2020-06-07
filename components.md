@@ -26,7 +26,7 @@ lcd display---------|
 
 wires---------------|
 
-motordrivers-------|
+motor drivers-------|
 
 buzzer--------------|
 
